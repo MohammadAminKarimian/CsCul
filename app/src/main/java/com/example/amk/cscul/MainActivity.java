@@ -2,9 +2,9 @@
  * issues *
  *
  *      1 - if ( TempVariable == "" )
- *          prevent from axcecuting operator !!!
+ *          prevent from axcecuting operator !!!        Completed
  *
- *      2 - Delete  Button 
+ *      2 - Delete  Button
  */
 
 package com.example.amk.cscul;
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText() + "0");
                 TempVariable += "0";
             }
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText() + "1");
                 TempVariable += "1";
             }
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText() + "2");
                 TempVariable += "2";
             }
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText() + "3");
                 TempVariable += "3";
             }
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText()+"4");
                 TempVariable += "4";
             }
@@ -116,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText() + "5");
                 TempVariable += "5";
             }
@@ -128,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText() + "6");
                 TempVariable += "6";
             }
@@ -153,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText()+"8");
                 TempVariable += "8";
             }
@@ -165,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "9 ...", Toast.LENGTH_SHORT).show();
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText() + "9");
                 TempVariable += "9";
             }
@@ -193,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
         multiple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                operatorAfterEqual(EqEffect);
                 editText.setText(editText.getText()+"×");
                 variables.add(TempVariable);
                 operations.add("multiple");
@@ -207,10 +216,15 @@ public class MainActivity extends AppCompatActivity {
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                operatorAfterEqual(EqEffect);
                 editText.setText(editText.getText() + "-");
-                variables.add(TempVariable);
-                operations.add("minus");
-                TempVariable = "";
+                if (TempVariable == null) {
+
+                } else {
+                    variables.add(TempVariable);
+                    operations.add("minus");
+                    TempVariable = "";
+                }
             }
         });
 
@@ -221,10 +235,15 @@ public class MainActivity extends AppCompatActivity {
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                operatorAfterEqual(EqEffect);
                 editText.setText(editText.getText() + "+");
-                variables.add(TempVariable);
-                operations.add("plus");
-                TempVariable = "";
+                if (TempVariable == null) {
+
+                } else {
+                    variables.add(TempVariable);
+                    operations.add("plus");
+                    TempVariable = "";
+                }
             }
         });
 
@@ -235,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
         point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                numberAfterEqual(EqEffect, editText);
                 editText.setText(editText.getText()+".");
                 TempVariable += ".";
             }
@@ -249,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 variables.clear();
                 operations.clear();
+                TempVariable = "";
                 editText.setText("");
             }
         });
@@ -346,6 +367,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 variables.add(TempVariable);
                 TempVariable = "";
+
                 for (String ops: operations){
                     if(variables.size() == 0)
                         editText.setText("");
@@ -368,6 +390,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     EqEffect = true;
                 }
+                TempVariable = variables.get(0);
                 editText.setText(variables.get(0));
             }
         });
@@ -418,6 +441,7 @@ public class MainActivity extends AppCompatActivity {
             editText.setText("");
             variables.clear();
             operations.clear();
+            TempVariable = "";
             this.EqEffect = false;
         }
     }
@@ -425,6 +449,7 @@ public class MainActivity extends AppCompatActivity {
     //  reaction for operation button after Equal operation
     public void operatorAfterEqual(boolean key){
         if(key){
+            variables.clear();
             operations.clear();
             this.EqEffect = false;
         }

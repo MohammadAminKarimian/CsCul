@@ -2,7 +2,7 @@
  * issues *
  *
  *      1 - if ( TempVariable == "" )
- *          prevent from axcecuting operator !!!        Completed
+ *          prevent from axcecuting operator !!!
  *
  *      2 - Delete  Button
  */
@@ -367,72 +367,41 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 variables.add(TempVariable);
                 TempVariable = "";
+                int priority = 1;
 
-                for (String ops: operations){
-                    if(variables.size() == 0)
-                        editText.setText("");
-                    if(variables.size() == 1)
-                        editText.setText(variables.get(0));
-                    switch (ops){
-                        case "plus" :
-                            Refactor(Plus());
-                            break;
-                        case "minus" :
-                            Refactor(Minus());
-                            break;
-                        case "multiple" :
-                            Refactor(Multiple());
-                            break;
-                        case "division" :
-                            Refactor(Division());
-                            break;
-                        default:
+                if (variables.size() == 0)
+                    editText.setText("");
+
+                if (variables.size() == 1)
+                    editText.setText(variables.get(0));
+
+                while (priority <= 2) {
+                    int pos = 0;
+                    boolean check = false;
+                    for (; pos < operations.size(); pos++) {
+                        switch (priority) {
+                            case 1:
+                                check = CulculateForPriorityOne(pos, operations.get(pos));
+                                if (check) {
+                                    pos--;
+                                }
+                                break;
+                            case 2:
+                                check = CulculateForPriorityTwo(pos, operations.get(pos));
+                                if (check) {
+                                    pos--;
+                                }
+                                break;
+                        }
                     }
-                    EqEffect = true;
+                    priority++;
                 }
+                EqEffect = true;
                 TempVariable = variables.get(0);
                 editText.setText(variables.get(0));
             }
         });
 
-    }
-
-    // Operation Methods Declaration    plus    minus   multiple    division
-
-    public String Plus() {
-        if (variables.get(1) == null)
-            return variables.get(0);
-        double result = Double.parseDouble(variables.get(0)) + Double.parseDouble(variables.get(1));
-        return "" + result ;
-    }
-
-    public String Minus() {
-        if (variables.get(1) == null)
-            return variables.get(0);
-        double result = Double.parseDouble(variables.get(0)) - Double.parseDouble(variables.get(1));
-        return "" + result ;
-    }
-
-    public String Multiple() {
-        if (variables.get(1) == null)
-            return variables.get(0);
-        double result = Double.parseDouble(variables.get(0)) * Double.parseDouble(variables.get(1));
-        return "" + result ;
-    }
-
-    public String Division() {
-        if (variables.get(1) == null)
-            return variables.get(0);
-        double result = Double.parseDouble(variables.get(0)) / Double.parseDouble(variables.get(1));
-        return "" + result ;
-    }
-
-    //  After Excecuting each operation Refactor method will place Result in index 0 of Variables ArrayList
-    // and
-    // will delete Second variable in Variables ArrayList
-    public void Refactor(String result){
-        variables.set(0,result);
-        variables.remove(1);
     }
 
     // reaction for number button after Equal operation
@@ -452,6 +421,70 @@ public class MainActivity extends AppCompatActivity {
             variables.clear();
             operations.clear();
             this.EqEffect = false;
+        }
+    }
+
+    // Operation Methods Declaration    plus    minus   multiple    division
+
+    public void Plus(int pos) {
+        if (variables.get(pos + 1) == null) {
+        } else {
+            variables.set(pos, Double.parseDouble(variables.get(pos)) + Double.parseDouble(variables.get(pos + 1)) + "");
+        }
+    }
+
+    public void Minus(int pos) {
+        if (variables.get(pos + 1) == null) {
+        } else {
+            variables.set(pos, Double.parseDouble(variables.get(pos)) - Double.parseDouble(variables.get(pos + 1)) + "");
+        }
+    }
+
+    public void Multiple(int pos) {
+        if (variables.get(pos + 1) == null) {
+        } else {
+            variables.set(pos, Double.parseDouble(variables.get(pos)) * Double.parseDouble(variables.get(pos + 1)) + "");
+        }
+    }
+
+    public void Division(int pos) {
+        if (variables.get(pos + 1) == null) {
+        } else {
+            variables.set(pos, Double.parseDouble(variables.get(pos)) / Double.parseDouble(variables.get(pos + 1)) + "");
+        }
+    }
+
+    public boolean CulculateForPriorityOne(int position, String Operation) {
+        switch (Operation) {
+            case "multiple":
+                Multiple(position);
+                variables.remove(position + 1);
+                operations.remove(position);
+                return true;
+            case "division":
+                Division(position);
+                variables.remove(position + 1);
+                operations.remove(position);
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean CulculateForPriorityTwo(int position, String Operation) {
+        switch (Operation) {
+            case "plus":
+                Plus(position);
+                variables.remove(position + 1);
+                operations.remove(position);
+                return true;
+            case "minus":
+                Minus(position);
+                variables.remove(position + 1);
+                operations.remove(position);
+                return true;
+            default:
+                return false;
         }
     }
 
